@@ -39,7 +39,11 @@ def get_users():
         sql = "SELECT name FROM users"
         cursor.execute(sql)
         users = cursor.fetchall()  # 모든 사용자 목록을 가져옴
-        return [user[0] for user in users]  # 사용자 목록에서 이름만 추출하여 반환
+        print(users)
+        print([user[0] for user in users])
+        return users
+        # return [user[1] for user in users]  # 사용자 목록에서 이름만 추출하여 반환
+        # return [user[0] for user in users]  # 사용자 목록에서 이름만 추출하여 반환
     except Exception as e:
         print("Error getting users:", e)
         return []
