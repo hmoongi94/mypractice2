@@ -31,6 +31,19 @@ def insert_data(name):
         if conn:
             conn.close()
 
+# 데이터베이스에서 모든 사용자 목록을 가져오는 함수
+def get_users():
+    try:
+        conn = connect_to_database()
+        cursor = conn.cursor()
+        sql = "SELECT name FROM users"
+        cursor.execute(sql)
+        users = cursor.fetchall()  # 모든 사용자 목록을 가져옴
+        return [user[0] for user in users]  # 사용자 목록에서 이름만 추출하여 반환
+    except Exception as e:
+        print("Error getting users:", e)
+        return []
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
@@ -39,7 +52,9 @@ def index():
             print("입력된 이름을 데이터베이스에 성공적으로 추가했습니다.")
         else:
             print("데이터베이스에 입력된 이름을 추가하는 데 문제가 발생했습니다.")
-    return render_template('index.html')
+    # 사용자 목록을 가져와서 템플릿에 전달
+    users = get_users()
+    return render_template('index.html', users=users)
 
 if __name__ == '__main__':
     app.run(debug=True)
