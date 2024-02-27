@@ -21,7 +21,7 @@ def insert_data(name):
         conn = connect_to_database()
         cursor = conn.cursor()
         sql = "INSERT INTO users (name) VALUES (%s)"
-        cursor.execute(sql, (name,))
+        cursor.execute(sql, (name ))
         conn.commit()
         return True
     except Exception as e:
